@@ -1,5 +1,13 @@
+import AddTodo from "./components/AddTodo/AddTodo";
+
 const App = () => {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <div>
+        <AddTodo />
+      </div>
+    </>
+  );
 };
 
 export default App;
