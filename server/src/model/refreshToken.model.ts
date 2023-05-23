@@ -10,9 +10,4 @@ export interface RefreshToken {
   updatedAt: Date;
 }
 
-export type CreateRefreshToken = Omit<
-  RefreshToken,
-  "id" | "createdAt" | "updatedAt"
->;
 
-export type UpdateRefreshToken = Partial<RefreshToken>;
