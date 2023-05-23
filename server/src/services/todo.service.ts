@@ -5,7 +5,7 @@ export const createTodo = async (todo: CreateTodo): Promise<Todo> => {
   const createdTodo: Todo = await prisma.todo.create({
     data: todo,
   });
-  return createdTodo || undefined;
+  return createdTodo;
 };
 
 export const getAllTodos = async (): Promise<Todo[]> => {

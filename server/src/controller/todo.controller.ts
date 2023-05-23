@@ -39,7 +39,7 @@ export const getTodoByIdHandler = async (
     }
     return res.status(200).json({
       success: true,
-      foundTodo,
+      todo: foundTodo,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -55,7 +55,7 @@ export const createTodohandler = async (
     const createdTodo = await createTodo(todo);
     return res.status(201).json({
       success: true,
-      createdTodo,
+      todo: createdTodo,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -69,7 +69,7 @@ export const updateTodoByIdHandler = async (
   try {
     const todoId: string = req.params.todoId;
     const todoData: UpdateTodo = req.body;
-    const updatedTodo = await updateTodoById(todoId, todoData);
+    const updatedTodo: Todo | boolean = await updateTodoById(todoId, todoData);
     if (!updatedTodo) {
       return res.status(404).json({
         success: false,
@@ -78,7 +78,7 @@ export const updateTodoByIdHandler = async (
     }
     return res.status(201).json({
       success: true,
-      updatedTodo,
+      todo: updatedTodo,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -91,7 +91,7 @@ export const deleteTodoByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const todoId = req.params.todoId;
-    const deletedTodo = await deleteTodoById(todoId);
+    const deletedTodo: boolean = await deleteTodoById(todoId);
     if (!deletedTodo) {
       return res.status(404).json({
         success: false,
