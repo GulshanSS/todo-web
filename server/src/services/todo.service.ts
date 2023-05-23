@@ -2,19 +2,19 @@ import prisma from "../config/prisma";
 import { CreateTodo, Todo, UpdateTodo } from "../model/todo.model";
 
 export const createTodo = async (todo: CreateTodo): Promise<Todo> => {
-  const createdTodo: Todo = await prisma.Todo.create({
+  const createdTodo: Todo = await prisma.todo.create({
     data: todo,
   });
   return createdTodo || undefined;
 };
 
 export const getAllTodos = async (): Promise<Todo[]> => {
-  const todos: Todo[] = await prisma.Todo.findMany();
+  const todos: Todo[] = await prisma.todo.findMany();
   return todos;
 };
 
 export const getTodoById = async (todoId: string): Promise<Todo | boolean> => {
-  const foundTodo: Todo = await prisma.Todo.findUnique({
+  const foundTodo: Todo | null = await prisma.todo.findUnique({
     where: {
       id: todoId,
     },
@@ -33,7 +33,7 @@ export const updateTodoById = async (
   if (!oldTodo) {
     return false;
   }
-  const updatedTodo: Todo = await prisma.Todo.update({
+  const updatedTodo: Todo = await prisma.todo.update({
     where: {
       id: todoId,
     },
@@ -47,7 +47,7 @@ export const deleteTodoById = async (todoId: string): Promise<boolean> => {
   if (!todo) {
     return false;
   }
-  await prisma.Todo.delete({
+  await prisma.todo.delete({
     where: {
       id: todoId,
     },
