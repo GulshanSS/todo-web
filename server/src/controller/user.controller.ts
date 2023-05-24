@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import logger from "../config/logger";
-import { UpdatedUser, User } from "../model/user.model";
+import { UserUpdateInput, User } from "../model/user.model";
 import {
   deleteUserById,
   getAllUsers,
@@ -14,7 +14,7 @@ export const getAllUsersHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const users: User[] = await getAllUsers();
+    const users = (await getAllUsers()) as User[];
     return res.status(200).json({
       success: true,
       users,
@@ -30,7 +30,7 @@ export const getUserByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const userId: string = req.params.userId;
-    const foundUser: User | boolean = await getUserById(userId);
+    const foundUser = (await getUserById(userId)) as User;
     if (!foundUser) {
       return res.status(404).json({
         success: false,
@@ -52,7 +52,7 @@ export const getUserByEmailHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const email: string = req.body.email;
-    const foundUser: User | boolean = await getUserByEmail(email);
+    const foundUser = (await getUserByEmail(email)) as User;
     if (!foundUser) {
       return res.status(404).json({
         success: false,
@@ -74,14 +74,15 @@ export const updateUserByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const userId: string = req.params.userId;
-    const userData: UpdatedUser = req.body;
-    const updatedUser: User | boolean = await updateUserById(userId, userData);
-    if (!updatedUser) {
+    const oldUser = (await getUserById(userId)) as User;
+    if (!oldUser) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
+    const userData: UserUpdateInput = req.body;
+    const updatedUser = (await updateUserById(userId, userData)) as User;
     return res.status(201).json({
       success: true,
       user: updatedUser,
@@ -97,16 +98,17 @@ export const deleteUserByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const userId: string = req.params.userId;
-    const deletedTodo: boolean = await deleteUserById(userId);
-    if (!deletedTodo) {
+    const user = (await getUserById(userId)) as User;
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
+    const deletedUser = (await deleteUserById(userId)) as User;
     return res.status(200).json({
       success: true,
-      message: "User deleted Successfully",
+      message: `User deleted Successfully with email ${deletedUser.email}`,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);

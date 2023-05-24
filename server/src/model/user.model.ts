@@ -1,3 +1,4 @@
+import { RefreshToken } from "@prisma/client";
 import { Todo } from "./todo.model";
 
 export interface User {
@@ -5,10 +6,11 @@ export interface User {
   email: string;
   password: string;
   todos: Todo[];
+  refreshTokens: RefreshToken[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type CreateUser = Omit<User, "id" | "createdAt" | "updatedAt">;
+export type UserCreateInput = Omit<User, "id" | "createdAt" | "updatedAt">;
 
-export type UpdatedUser = Partial<User>;
+export type UserUpdateInput = Partial<UserCreateInput>;
