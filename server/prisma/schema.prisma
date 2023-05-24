@@ -12,7 +12,7 @@ model User {
   email String @unique
   password String 
   todos Todo[]
-  refreshToken RefreshToken[]
+  refreshTokens RefreshToken[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
