@@ -11,6 +11,6 @@ export interface User {
   updatedAt: Date;
 }
 
-export type UserCreateInput = Omit<User, "id" | "createdAt" | "updatedAt">;
+export type UserCreateInput = Pick<User, "email" | "password">;
 
 export type UserUpdateInput = Partial<UserCreateInput>;
