@@ -9,5 +9,3 @@ export interface RefreshToken {
   createdAt: Date;
   updatedAt: Date;
 }
-
-
