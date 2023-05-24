@@ -10,6 +10,9 @@ export interface Todo {
   updatedAt: Date;
 }
 
-export type CreateTodo = Omit<Todo, "id" | "createdAt" | "updatedAt">;
+export type TodoCreateInput = Omit<
+  Todo,
+  "id" | "createdAt" | "updatedAt" | "owner"
+>;
 
-export type UpdateTodo = Partial<Todo>;
+export type TodoUpdateInput = Partial<TodoCreateInput>;

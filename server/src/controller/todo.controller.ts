@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import logger from "../config/logger";
-import { CreateTodo, Todo, UpdateTodo } from "../model/todo.model";
+import { TodoCreateInput, Todo, TodoUpdateInput } from "../model/todo.model";
 import {
   createTodo,
   deleteTodoById,
@@ -14,7 +14,7 @@ export const getAllTodosHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const todos: Todo[] = await getAllTodos();
+    const todos = (await getAllTodos()) as Todo[];
     return res.status(200).json({
       success: true,
       todos,
@@ -30,7 +30,7 @@ export const getTodoByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const todoId: string = req.params.todoId;
-    const foundTodo: Todo | boolean = await getTodoById(todoId);
+    const foundTodo = (await getTodoById(todoId)) as Todo;
     if (!foundTodo) {
       return res.status(404).json({
         success: false,
@@ -51,7 +51,7 @@ export const createTodohandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const todo: CreateTodo = req.body;
+    const todo: TodoCreateInput = req.body;
     const createdTodo = await createTodo(todo);
     return res.status(201).json({
       success: true,
@@ -68,14 +68,15 @@ export const updateTodoByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const todoId: string = req.params.todoId;
-    const todoData: UpdateTodo = req.body;
-    const updatedTodo: Todo | boolean = await updateTodoById(todoId, todoData);
-    if (!updatedTodo) {
+    const oldTodo = (await getTodoById(todoId)) as Todo;
+    if (!oldTodo) {
       return res.status(404).json({
         success: false,
         message: "Todo Not Found",
       });
     }
+    const todoData: TodoUpdateInput = req.body;
+    const updatedTodo = (await updateTodoById(todoId, todoData)) as Todo;
     return res.status(201).json({
       success: true,
       todo: updatedTodo,
@@ -91,16 +92,18 @@ export const deleteTodoByIdHandler = async (
 ): Promise<Response | undefined> => {
   try {
     const todoId = req.params.todoId;
-    const deletedTodo: boolean = await deleteTodoById(todoId);
-    if (!deletedTodo) {
+    const todo = (await getTodoById(todoId)) as Todo;
+    if (!todo) {
       return res.status(404).json({
         success: false,
         message: "Todo Not Found",
       });
     }
+    const deletedTodo = await deleteTodoById(todoId) as Todo;
+    
     return res.status(200).json({
       success: true,
-      message: "Todo Deleted Successfully",
+      message: `Todo Deleted Successfully with id as ${deletedTodo.id}`,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
