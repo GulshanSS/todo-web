@@ -1,38 +1,31 @@
 import jwt from "jsonwebtoken";
 import { User } from "../model/user.model";
 
-const generateToken = (
-  user: User,
-  jwtSecret: string,
-  expiresIn: string
-): string => {
-  return jwt.sign({ id: user.id }, jwtSecret, {
-    expiresIn,
-  });
+export const generateAccessToken = (user: User): string => {
+  return jwt.sign(
+    { id: user.id },
+    process.env.JWT_ACCESS_TOKEN_SECRET as string,
+    { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRE_TIME as string }
+  );
 };
 
-export const generateAccessToken = (user: User): string =>
-  generateToken(
-    user,
-    process.env.JWT_ACCESS_TOKEN_SECRET as string,
-    process.env.JWT_ACCESS_TOKEN_EXPIRE_TIME as string
-  );
-
-export const generateRefreshToken = (user: User): string =>
-  generateToken(
-    user,
+export const generateRefreshToken = (user: User, jti: string): string => {
+  return jwt.sign(
+    { userId: user.id, jti },
     process.env.JWT_REFRESH_TOKEN_SECRET as string,
-    process.env.JWT_REFRESH_TOKEN_EXPIRE_TIME as string
+    { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRE_TIME as string }
   );
+};
 
 export const generateTokens = (
-  user: User
+  user: User,
+  jti: string
 ): {
   accessToken: string;
   refreshToken: string;
 } => {
   const accessToken: string = generateAccessToken(user);
-  const refreshToken: string = generateRefreshToken(user);
+  const refreshToken: string = generateRefreshToken(user, jti);
 
   return {
     accessToken,
