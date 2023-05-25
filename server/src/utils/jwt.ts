@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../model/user.model";
+import JwtRefreshTokenPayload from "../model/jwtRefreshTokenPayload.model";
 
 export const generateAccessToken = (user: User): string => {
   return jwt.sign(
@@ -32,3 +33,6 @@ export const generateTokens = (
     refreshToken,
   };
 };
+
+export const verifyToken = (refreshToken: string, jwtSecret: string) =>
+  jwt.verify(refreshToken, jwtSecret) as JwtRefreshTokenPayload;
