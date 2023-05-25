@@ -16,7 +16,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { RefreshToken } from "../model/refreshToken.model";
 import hashToken from "../utils/hashToken";
-import JwtRefreshTokenPayload from "../model/jwtRefreshTokenPayload.model";
+import { TokenPayload } from "../model/tokenPayload.model";
 
 export const registerHandler = async (req: Request, res: Response) => {
   try {
@@ -80,11 +80,16 @@ export const loginHandler = async (req: Request, res: Response) => {
 export const refreshTokenHandler = async (req: Request, res: Response) => {
   try {
     const refreshToken: string = req.body.refreshToken;
-    const payload: JwtRefreshTokenPayload = verifyToken(
+    const payload: TokenPayload = verifyToken(
       refreshToken,
       process.env.JWT_REFRESH_TOKEN_SECRET as string
     );
-
+    if (!payload.jti || !payload.userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
     const savedRefreshToken = (await getRefreshTokenById(
       payload.jti
     )) as RefreshToken;
