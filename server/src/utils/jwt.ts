@@ -11,21 +11,21 @@ const generateToken = (
   });
 };
 
-const generateAccessToken = (user: User): string =>
+export const generateAccessToken = (user: User): string =>
   generateToken(
     user,
     process.env.JWT_ACCESS_TOKEN_SECRET as string,
     process.env.JWT_ACCESS_TOKEN_EXPIRE_TIME as string
   );
 
-const generateRefreshToken = (user: User): string =>
+export const generateRefreshToken = (user: User): string =>
   generateToken(
     user,
     process.env.JWT_REFRESH_TOKEN_SECRET as string,
     process.env.JWT_REFRESH_TOKEN_EXPIRE_TIME as string
   );
 
-const generateTokens = (
+export const generateTokens = (
   user: User
 ): {
   accessToken: string;
@@ -38,10 +38,4 @@ const generateTokens = (
     accessToken,
     refreshToken,
   };
-};
-
-export default {
-  generateAccessToken,
-  generateRefreshToken,
-  generateTokens,
 };
