@@ -5,6 +5,7 @@ import { createUser, getUserByEmail } from "../services/user.service";
 import { compare, hash } from "../utils/bcrypt";
 import { generateTokens } from "../utils/jwt";
 import { whiteListRefreshToken } from "../services/token.service";
+import { v4 as uuidv4 } from "uuid";
 
 export const registerHandler = async (req: Request, res: Response) => {
   try {
@@ -22,8 +23,9 @@ export const registerHandler = async (req: Request, res: Response) => {
       password: hashedPassword,
     };
     const user = (await createUser(data)) as User;
-    const { accessToken, refreshToken } = generateTokens(user);
-    await whiteListRefreshToken({ refreshToken, userId: user.id });
+    const jti = uuidv4();
+    const { accessToken, refreshToken } = generateTokens(user, jti);
+    await whiteListRefreshToken({ refreshToken, jti, user });
     return res.status(201).json({
       success: true,
       accessToken,
@@ -51,8 +53,9 @@ export const loginHandler = async (req: Request, res: Response) => {
         message: "Incorrect password. Try again with different password",
       });
     }
-    const { accessToken, refreshToken } = generateTokens(existingUser);
-    await whiteListRefreshToken({ refreshToken, userId: existingUser.id });
+    const jti = uuidv4();
+    const { accessToken, refreshToken } = generateTokens(existingUser, jti);
+    await whiteListRefreshToken({ refreshToken, jti, user: existingUser });
     return res.status(200).json({
       success: true,
       accessToken,
