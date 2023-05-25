@@ -3,6 +3,7 @@ import logger from "./config/logger";
 import dotenv from "dotenv";
 import TodoRouter from "./routes/todo.routes";
 import UserRouter from "./routes/user.routes";
+import AuthRouter from "./routes/auth.routes";
 dotenv.config();
 
 const app: Express = express();
@@ -13,6 +14,7 @@ app.use("/test", (req: Request, res: Response) => {
   res.json({ success: true, message: "Welcome to TodoWebAPI" });
 });
 
+app.use("/api/v1", AuthRouter);
 app.use("/api/v1/todo", TodoRouter);
 app.use("/api/v1/user", UserRouter);
 
