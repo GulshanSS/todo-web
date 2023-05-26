@@ -4,7 +4,7 @@ import { TokenPayload } from "../model/tokenPayload.model";
 
 export const generateAccessToken = (user: User): string => {
   return jwt.sign(
-    { id: user.id },
+    { userId: user.id },
     process.env.JWT_ACCESS_TOKEN_SECRET as string,
     { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRE_TIME as string }
   );
