@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import {
   deleteUserByIdHandler,
-  getAllUsersHandler,
   getUserByEmailHandler,
   getUserByIdHandler,
   updateUserByIdHandler,
@@ -9,10 +8,9 @@ import {
 
 const UserRouter: Router = express.Router();
 
-UserRouter.get("/", getAllUsersHandler);
-UserRouter.get("/:userId", getUserByIdHandler);
+UserRouter.get("/", getUserByIdHandler);
 UserRouter.get("/by-email", getUserByEmailHandler);
-UserRouter.put("/:userId/update", updateUserByIdHandler);
-UserRouter.delete("/:userId/delete", deleteUserByIdHandler);
+UserRouter.put("/update", updateUserByIdHandler);
+UserRouter.delete("/delete", deleteUserByIdHandler);
 
 export default UserRouter;
