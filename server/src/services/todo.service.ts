@@ -7,14 +7,25 @@ export const createTodo = async (todo: TodoCreateInput) => {
   });
 };
 
-export const getAllTodos = async () => {
-  return await prisma.todo.findMany({});
+export const getAllTodos = async (userId: string) => {
+  return await prisma.todo.findMany({
+    where: {
+      userId,
+    },
+  });
 };
 
-export const getTodoById = async (todoId: string) => {
-  return await prisma.todo.findUnique({
+export const getTodoById = async (todoId: string, userId: string) => {
+  return await prisma.todo.findFirst({
     where: {
-      id: todoId,
+      AND: [
+        {
+          id: todoId,
+        },
+        {
+          userId,
+        },
+      ],
     },
   });
 };

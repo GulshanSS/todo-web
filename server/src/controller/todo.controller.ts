@@ -14,7 +14,8 @@ export const getAllTodosHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const todos = (await getAllTodos()) as Todo[];
+    const userId: string = req.payload.userId;
+    const todos = (await getAllTodos(userId)) as Todo[];
     return res.status(200).json({
       success: true,
       todos,
@@ -29,8 +30,9 @@ export const getTodoByIdHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
+    const userId: string = req.payload.userId;
     const todoId: string = req.params.todoId;
-    const foundTodo = (await getTodoById(todoId)) as Todo;
+    const foundTodo = (await getTodoById(todoId, userId)) as Todo;
     if (!foundTodo) {
       return res.status(404).json({
         success: false,
@@ -51,7 +53,8 @@ export const createTodohandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const todo: TodoCreateInput = req.body;
+    const userId: string = req.payload.userId;
+    const todo: TodoCreateInput = { ...req.body, userId };
     const createdTodo = await createTodo(todo);
     return res.status(201).json({
       success: true,
@@ -67,8 +70,9 @@ export const updateTodoByIdHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
+    const userId: string = req.payload.userId;
     const todoId: string = req.params.todoId;
-    const oldTodo = (await getTodoById(todoId)) as Todo;
+    const oldTodo = (await getTodoById(todoId, userId)) as Todo;
     if (!oldTodo) {
       return res.status(404).json({
         success: false,
@@ -91,16 +95,17 @@ export const deleteTodoByIdHandler = async (
   res: Response
 ): Promise<Response | undefined> => {
   try {
+    const userId: string = req.payload.userId;
     const todoId = req.params.todoId;
-    const todo = (await getTodoById(todoId)) as Todo;
+    const todo = (await getTodoById(todoId, userId)) as Todo;
     if (!todo) {
       return res.status(404).json({
         success: false,
         message: "Todo Not Found",
       });
     }
-    const deletedTodo = await deleteTodoById(todoId) as Todo;
-    
+    const deletedTodo = (await deleteTodoById(todoId)) as Todo;
+
     return res.status(200).json({
       success: true,
       message: `Todo Deleted Successfully with id as ${deletedTodo.id}`,
