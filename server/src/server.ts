@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import TodoRouter from "./routes/todo.routes";
 import UserRouter from "./routes/user.routes";
 import AuthRouter from "./routes/auth.routes";
+import { isAutheticated } from "./middleware/isAuthenticated";
 dotenv.config();
 
 const app: Express = express();
@@ -15,6 +16,7 @@ app.use("/test", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", AuthRouter);
+app.use(isAutheticated);
 app.use("/api/v1/todo", TodoRouter);
 app.use("/api/v1/user", UserRouter);
 
