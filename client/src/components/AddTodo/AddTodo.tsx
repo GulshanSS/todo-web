@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ToggleContext } from "../../context/ToggleContext";
 
-const AddTodo = ({ open, setOpen }: { open: boolean; setOpen: Function }) => {
+const AddTodo = () => {
   const [task, setTask] = useState("");
+  const { toggle, setToggle } = useContext(ToggleContext);
   return (
     <>
       <div className="w-screen h-screen fixed z-10 flex justify-center items-start pt-40 backdrop-blur-sm">
@@ -14,7 +16,7 @@ const AddTodo = ({ open, setOpen }: { open: boolean; setOpen: Function }) => {
             onChange={(e) => setTask(e.target.value)}
           />
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => setToggle(!toggle)}
             className="ml-2 px-5 py-2 rounded-md bg-black text-white"
           >
             Add

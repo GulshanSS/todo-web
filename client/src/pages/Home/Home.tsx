@@ -2,15 +2,19 @@ import { useState } from "react";
 import AddTodo from "../../components/AddTodo/AddTodo";
 import AddTodoButton from "../../components/AddTodoButton/AddTodoButton";
 import ListTodos from "../../components/ListTodos/ListTodos";
+import { ToggleContext } from "../../context/ToggleContext";
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState<boolean>(false);
   return (
     <>
       <div className="h-screen">
-        {open ? <AddTodo open={open} setOpen={setOpen} /> : null}
+        <ToggleContext.Provider value={{ toggle, setToggle }}>
+          {toggle ? <AddTodo /> : null}
+          <AddTodoButton />
+        </ToggleContext.Provider>
+
         <ListTodos />
-        <AddTodoButton open={open} setOpen={setOpen} />
       </div>
     </>
   );

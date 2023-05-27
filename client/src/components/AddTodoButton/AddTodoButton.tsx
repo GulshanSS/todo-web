@@ -1,12 +1,9 @@
+import { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { ToggleContext } from "../../context/ToggleContext";
 
-const AddTodoButton = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: Function;
-}) => {
+const AddTodoButton = () => {
+  const { toggle, setToggle } = useContext(ToggleContext);
   return (
     <>
       <button
@@ -25,9 +22,9 @@ const AddTodoButton = ({
           font-bold 
           text-slate-200 
           text-2xl 
-          ${open ? "rotate-45 bg-red-500" : "bg-slate-500"}
+          ${toggle ? "rotate-45 bg-red-500" : "bg-slate-500"}
           `}
-        onClick={() => setOpen(!open)}
+        onClick={() => setToggle(!toggle)}
       >
         <AiOutlinePlus />
       </button>
