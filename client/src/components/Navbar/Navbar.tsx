@@ -1,5 +1,5 @@
 import { GoSignOut } from "react-icons/go";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -15,9 +15,11 @@ const Navbar = () => {
             src="https://api.dicebear.com/6.x/bottts/svg?seed=Abby"
             alt="avatar"
           />
-          <button className="flex justify-center items-center w-10 h-10 text-2xl text-center bg-slate-200 rounded-full">
-            <GoSignOut />
-          </button>
+          <Link to="/login">
+            <button className="flex justify-center items-center w-10 h-10 text-2xl text-center bg-slate-200 rounded-full">
+              <GoSignOut />
+            </button>
+          </Link>
         </div>
       </nav>
       <Outlet />

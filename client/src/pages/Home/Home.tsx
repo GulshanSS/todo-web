@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
       <div className="h-screen">
-        {open ? <AddTodo /> : null}
+        {open ? <AddTodo open={open} setOpen={setOpen} /> : null}
         <ListTodos />
         <AddTodoButton open={open} setOpen={setOpen} />
       </div>

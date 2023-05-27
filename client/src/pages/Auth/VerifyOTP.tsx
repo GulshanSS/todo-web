@@ -1,4 +1,5 @@
 import OTPInputField from "../../components/Auth/OTPInputField.tsx/OTPInputField";
+import { Link } from "react-router-dom";
 
 const VerifyOTP = () => {
   return (
@@ -13,9 +14,11 @@ const VerifyOTP = () => {
         <span className="text-sm font-bold uppercase text-slate-300">
           Enter Verification OTP sent to your email
         </span>
-        <button className="mt-5 px-5 py-2 rounded-md font-bold text-xl text-slate-500 bg-slate-300">
-          Verify
-        </button>
+        <Link to="/">
+          <button className="mt-5 px-5 py-2 rounded-md font-bold text-xl text-slate-500 bg-slate-300">
+            Verify
+          </button>
+        </Link>
         <span className="text-sm text-slate-300 mt-2">
           Didn't get otp?
           <a>
@@ -25,9 +28,9 @@ const VerifyOTP = () => {
         <span className="font-bold text-sm text-slate-300 my-2">OR</span>
         <span className="text-sm text-slate-300">
           Go to
-          <a>
+          <Link to="/login">
             <b className="ml-2 uppercase">Login Page</b>
-          </a>
+          </Link>
         </span>
       </div>
     </>

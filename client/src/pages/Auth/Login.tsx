@@ -1,6 +1,7 @@
 import PasswordInputField from "../../components/Auth/PasswordInputField/PasswordInputField";
 import UsernameInputField from "../../components/Auth/UsernameInputField/UsernameInputField";
 import { AiOutlineGoogle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -10,9 +11,11 @@ const Login = () => {
         <UsernameInputField />
         <PasswordInputField placeholder="Enter Password" />
         <div className="flex flex-col items-center gap-1">
-          <button className="w-72 mt-2 px-5 py-2 text-slate-500 font-bold bg-slate-300 rounded-md">
-            Login
-          </button>
+          <Link to="/">
+            <button className="w-72 mt-2 px-5 py-2 text-slate-500 font-bold bg-slate-300 rounded-md">
+              Login
+            </button>
+          </Link>
           <span className="font-bold text-sm text-slate-300 my-2">OR</span>
           <div className="flex justify-center items-center w-72 mt-2 px-5 py-2 text-white font-bold bg-red-500 rounded-md">
             <span className="mr-2 text-xl">
@@ -24,9 +27,9 @@ const Login = () => {
 
         <span className="text-sm text-slate-300 mt-2">
           Go to
-          <a>
+          <Link to="/register">
             <b className="ml-2 uppercase">Register Page</b>
-          </a>
+          </Link>
         </span>
       </div>
     </>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddTodo = () => {
+const AddTodo = ({ open, setOpen }: { open: boolean; setOpen: Function }) => {
   const [task, setTask] = useState("");
   return (
     <>
@@ -13,7 +13,10 @@ const AddTodo = () => {
             value={task}
             onChange={(e) => setTask(e.target.value)}
           />
-          <button className="ml-2 px-5 py-2 rounded-md bg-black text-white">
+          <button
+            onClick={() => setOpen(!open)}
+            className="ml-2 px-5 py-2 rounded-md bg-black text-white"
+          >
             Add
           </button>
         </div>
