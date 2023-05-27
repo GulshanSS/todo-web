@@ -1,6 +1,5 @@
 import { useState } from "react";
 import AddTodo from "../../components/AddTodo/AddTodo";
-import Navbar from "../../components/Navbar/Navbar";
 import AddTodoButton from "../../components/AddTodoButton/AddTodoButton";
 import ListTodos from "../../components/ListTodos/ListTodos";
 
@@ -9,9 +8,8 @@ const Home = () => {
   return (
     <>
       <div className="h-screen">
-        <Navbar />
-        <ListTodos />
         {open ? <AddTodo /> : null}
+        <ListTodos />
         <AddTodoButton open={open} setOpen={setOpen} />
       </div>
     </>
