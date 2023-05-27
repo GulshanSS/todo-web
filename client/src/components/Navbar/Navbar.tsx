@@ -1,9 +1,10 @@
 import { GoSignOut } from "react-icons/go";
+import { Outlet } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <>
-      <div className="fixed top-0 w-screen flex justify-between items-center bg-slate-500 px-5 py-2">
+      <nav className="fixed top-0 w-screen flex justify-between items-center bg-slate-500 px-5 py-2">
         <div className="text-2xl font-bold text-slate-200 cursor-pointer">
           TodoWeb
         </div>
@@ -18,7 +19,8 @@ const Navbar = () => {
             <GoSignOut />
           </button>
         </div>
-      </div>
+      </nav>
+      <Outlet />
     </>
   );
 };
