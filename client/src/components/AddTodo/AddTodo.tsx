@@ -4,7 +4,7 @@ const AddTodo = () => {
   const [task, setTask] = useState("");
   return (
     <>
-      <div className="w-screen h-screen fixed z-10 flex justify-center items-center">
+      <div className="w-screen h-screen fixed z-10 flex justify-center items-start pt-40 backdrop-blur-sm">
         <div className="w-96 z-10 flex flex-row p-2 bg-slate-400 rounded-md shadow-2xl">
           <input
             type="text"
