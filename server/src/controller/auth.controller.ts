@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import { RefreshToken } from "../model/refreshToken.model";
 import hashGivenString from "../utils/hashGvenString";
 import { TokenPayload } from "../model/tokenPayload.model";
+import { getRandomKittenAvatars } from "../utils/randomKittenAvatar";
 
 export const registerHandler = async (req: Request, res: Response) => {
   try {
@@ -32,6 +33,7 @@ export const registerHandler = async (req: Request, res: Response) => {
     const data: UserCreateInput = {
       email,
       password: hashedPassword,
+      avatar: getRandomKittenAvatars(),
     };
     const user = (await createUser(data)) as User;
 

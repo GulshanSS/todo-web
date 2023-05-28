@@ -6,6 +6,7 @@ export interface User {
   id: string;
   email: string;
   password: string;
+  avatar: string;
   verified?: boolean;
   todos?: Todo[];
   refreshTokens?: RefreshToken[];
@@ -14,6 +15,9 @@ export interface User {
   updatedAt: Date;
 }
 
-export type UserCreateInput = Pick<User, "email" | "password">;
+export type UserCreateInput = Pick<User, "email" | "password" | "avatar">;
 
-export type UserUpdateInput = Partial<User>;
+export type UserUpdateInput = Pick<
+  User,
+  "email" | "password" | "avatar" | "verified"
+>;
