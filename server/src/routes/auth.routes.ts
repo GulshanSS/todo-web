@@ -9,6 +9,6 @@ const AuthRouter: Router = express.Router();
 
 AuthRouter.post("/register", registerHandler);
 AuthRouter.post("/login", loginHandler);
-AuthRouter.get("/refrehToken", refreshTokenHandler);
+AuthRouter.get("/refreh-token", refreshTokenHandler);
 
 export default AuthRouter;
