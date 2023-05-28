@@ -3,3 +3,7 @@ declare namespace Express {
     payload: any;
   }
 }
+
+declare namespace globalThis {
+  var prisma: any;
+}
