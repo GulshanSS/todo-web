@@ -11,8 +11,10 @@ model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
   password String 
+  verified Boolean? @default(false)
   todos Todo[]
   refreshTokens RefreshToken[]
+  otp OneTimePasscode[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -23,6 +25,15 @@ model RefreshToken {
   userId String @db.ObjectId
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   revoked Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OneTimePasscode {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  hashedOTP String
+  userId String @db.ObjectId @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
