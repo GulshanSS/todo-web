@@ -34,13 +34,11 @@ export const registerHandler = async (req: Request, res: Response) => {
       password: hashedPassword,
     };
     const user = (await createUser(data)) as User;
-    const jti: string = uuidv4();
-    const { accessToken, refreshToken } = generateTokens(user, jti);
-    await whiteListRefreshToken({ refreshToken, jti, user });
+
     return res.status(201).json({
       success: true,
-      accessToken,
-      refreshToken,
+      userId: user.id,
+      message: `Registered Successfully with email ${user.email}`,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -62,6 +60,13 @@ export const loginHandler = async (req: Request, res: Response) => {
       return res.status(403).json({
         success: false,
         message: "Incorrect password. Try again with different password",
+      });
+    }
+    if (!existingUser.verified) {
+      return res.status(403).json({
+        success: false,
+        userId: existingUser.id,
+        message: `Please verify existing user with email ${existingUser.email}`,
       });
     }
     const jti: string = uuidv4();
