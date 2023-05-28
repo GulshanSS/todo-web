@@ -15,7 +15,7 @@ import {
 } from "../services/token.service";
 import { v4 as uuidv4 } from "uuid";
 import { RefreshToken } from "../model/refreshToken.model";
-import hashToken from "../utils/hashToken";
+import hashGivenString from "../utils/hashGvenString";
 import { TokenPayload } from "../model/tokenPayload.model";
 
 export const registerHandler = async (req: Request, res: Response) => {
@@ -104,7 +104,7 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
         message: "Unauthorized",
       });
     }
-    const hashedToken = hashToken(refreshToken);
+    const hashedToken = hashGivenString(refreshToken);
     if (hashedToken !== savedRefreshToken.hashedToken) {
       return res.status(401).json({
         success: false,

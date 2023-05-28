@@ -12,7 +12,7 @@ import { generateOtp } from "../utils/otp";
 import { sendEmail } from "../utils/email";
 import logger from "../config/logger";
 import { VerifyOtpPayload } from "../model/verifyOtpPayload.model";
-import hashToken from "../utils/hashToken";
+import hashGivenString from "../utils/hashGvenString";
 import { v4 as uuidv4 } from "uuid";
 import { generateTokens } from "../utils/jwt";
 import { whiteListRefreshToken } from "../services/token.service";
@@ -62,7 +62,7 @@ export const verifyOTPhandler = async (req: Request, res: Response) => {
         message: "OTP not found for provided user",
       });
     }
-    const hashedOTP = hashToken(data.otp);
+    const hashedOTP = hashGivenString(data.otp);
     if (hashedOTP !== savedOTP.hashedOTP) {
       return res.status(403).json({
         success: false,

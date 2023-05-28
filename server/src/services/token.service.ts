@@ -1,6 +1,6 @@
 import prisma from "../config/prisma";
 import { User } from "../model/user.model";
-import hashToken from "../utils/hashToken";
+import hashGivenString from "../utils/hashGvenString";
 
 export const whiteListRefreshToken = async (data: {
   refreshToken: string;
@@ -10,7 +10,7 @@ export const whiteListRefreshToken = async (data: {
   return await prisma.refreshToken.create({
     data: {
       id: data.jti,
-      hashedToken: hashToken(data.refreshToken),
+      hashedToken: hashGivenString(data.refreshToken),
       userId: data.user.id,
     },
   });

@@ -1,11 +1,11 @@
 import prisma from "../config/prisma";
-import hashToken from "../utils/hashToken";
+import hashGivenString from "../utils/hashGvenString";
 
 export const createOTP = async (data: { userId: string; otp: string }) => {
   return await prisma.oneTimePasscode.create({
     data: {
       userId: data.userId,
-      hashedOTP: hashToken(data.otp),
+      hashedOTP: hashGivenString(data.otp),
     },
   });
 };
@@ -24,7 +24,7 @@ export const updateOTP = async (userId: string, otp: string) => {
       userId,
     },
     data: {
-      hashedOTP: hashToken(otp),
+      hashedOTP: hashGivenString(otp),
     },
   });
 };
