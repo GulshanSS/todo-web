@@ -53,3 +53,11 @@ export const revokeAllRefreshTokenAssignedToUser = async (userId: string) => {
     },
   });
 };
+
+export const deleteRefreshTokenByUserId = async (userId: string) => {
+  return await prisma.refreshToken.deleteMany({
+    where: {
+      userId,
+    },
+  });
+};

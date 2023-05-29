@@ -10,6 +10,7 @@ import { compare, hash } from "../utils/bcrypt";
 import { generateTokens, verifyToken } from "../utils/jwt";
 import {
   deleteRefreshTokenById,
+  deleteRefreshTokenByUserId,
   getRefreshTokenById,
   whiteListRefreshToken,
 } from "../services/token.service";
@@ -131,6 +132,32 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
       success: true,
       accessToken,
       refreshToken,
+    });
+  } catch (e: unknown) {
+    if (e instanceof Error) logger.error(e.message);
+  }
+};
+
+export const deleteRefreshTokenByUserIdHandler = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const refreshToken: string = req.body.refreshToken;
+    const payload: TokenPayload = verifyToken(
+      refreshToken,
+      process.env.JWT_REFRESH_TOKEN_SECRET as string
+    );
+    if (!payload.jti || !payload.userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    await deleteRefreshTokenByUserId(payload.userId);
+    return res.status(201).json({
+      success: true,
+      message: "Deleted all the tokens assigned to user",
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
