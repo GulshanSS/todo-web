@@ -17,7 +17,6 @@ export interface User {
 
 export type UserCreateInput = Pick<User, "email" | "password" | "avatar">;
 
-export type UserUpdateInput = Pick<
-  User,
-  "email" | "password" | "avatar" | "verified"
+export type UserUpdateInput = Partial<
+  Pick<User, "email" | "password" | "avatar" | "verified">
 >;
