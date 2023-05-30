@@ -6,11 +6,17 @@ import UserRouter from "./routes/user.routes";
 import AuthRouter from "./routes/auth.routes";
 import { isAutheticated } from "./middleware/isAuthenticated";
 import OtpRouter from "./routes/otp.routes";
+import cors from "cors";
 dotenv.config();
 
 const app: Express = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/test", (req: Request, res: Response) => {
   res.json({ success: true, message: "Welcome to TodoWebAPI" });
