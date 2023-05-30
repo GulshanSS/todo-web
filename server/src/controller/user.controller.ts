@@ -23,7 +23,12 @@ export const getUserByIdHandler = async (
     }
     return res.status(200).json({
       success: true,
-      user: foundUser,
+      user: {
+        id: foundUser.id,
+        email: foundUser.email,
+        avatar: foundUser.avatar,
+        verified: foundUser.verified,
+      },
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -69,7 +74,12 @@ export const updateUserByIdHandler = async (
     const updatedUser = (await updateUserById(userId, userData)) as User;
     return res.status(201).json({
       success: true,
-      user: updatedUser,
+      user: {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        verified: updatedUser.verified,
+      },
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
