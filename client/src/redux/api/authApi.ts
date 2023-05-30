@@ -30,7 +30,7 @@ export const authApi = createApi({
         refreshtoken: string;
       },
       {
-        username: string;
+        email: string;
         password: string;
       }
     >({
