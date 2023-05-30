@@ -34,12 +34,12 @@ const PasswordInputField = ({
                 className="w-full p-2 focus:outline-none"
                 type={toggle ? "text" : "password"}
               />
-              <button
-                className="w-10 text-xl text-slate-500 bg-white rounded-r-md"
+              <div
+                className="w-10 text-xl text-slate-500 bg-white rounded-r-md flex justify-center items-center"
                 onClick={(e) => setToggle(!toggle)}
               >
                 {toggle ? <AiFillEye /> : <AiFillEyeInvisible />}
-              </button>
+              </div>
               {errors[name] ? (
                 <p className="text-sm text-red-500">errors[name].message</p>
               ) : (

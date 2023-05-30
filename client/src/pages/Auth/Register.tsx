@@ -9,9 +9,7 @@ import { useRegisterUserMutation } from "../../redux/api/authApi";
 import { useEffect } from "react";
 
 const RegisterSchema = object({
-  username: string()
-    .min(1, "Email is required")
-    .email("Email Address is invalid"),
+  email: string().min(1, "Email is required").email("Email Address is invalid"),
   password: string().min(1, "Password is required"),
   confirmPassword: string().min(1, "Please confirm your password"),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -56,7 +54,7 @@ const Register = () => {
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
     registerUser({
-      username: values.username,
+      email: values.email,
       password: values.password,
     });
   };
@@ -71,7 +69,7 @@ const Register = () => {
             noValidate
             autoComplete="off"
           >
-            <UsernameInputField name="username" />
+            <UsernameInputField name="email" />
             <PasswordInputField
               {...register("password")}
               placeholder="Enter New Password"

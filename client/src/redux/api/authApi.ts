@@ -11,7 +11,7 @@ export const authApi = createApi({
     registerUser: builder.mutation<
       { success: boolean; userId: string; message: string },
       {
-        username: string;
+        email: string;
         password: string;
       }
     >({
