@@ -18,13 +18,13 @@ const PasswordInputField = ({
 
   return (
     <>
-      <div className="w-96 flex rounded-md border border-solid border-slate-700 bg-slate-500 m-2">
-        <Controller
-          control={control}
-          defaultValue=""
-          name={name}
-          render={({ field }) => (
-            <>
+      <Controller
+        control={control}
+        defaultValue=""
+        name={name}
+        render={({ field }) => (
+          <>
+            <div className="w-96 flex rounded-md border border-solid border-slate-700 bg-slate-500 m-2">
               <div className="w-10 p-2 text-xl text-center text-white ">
                 <MdKey />
               </div>
@@ -40,15 +40,17 @@ const PasswordInputField = ({
               >
                 {toggle ? <AiFillEye /> : <AiFillEyeInvisible />}
               </div>
-              {errors[name] ? (
-                <p className="text-sm text-red-500">errors[name].message</p>
-              ) : (
-                ""
-              )}
-            </>
-          )}
-        />
-      </div>
+            </div>
+            {errors[name] ? (
+              <span className="flex justify-end font-bold text-sm text-red-900 mr-2">
+                {errors[name]?.message?.toString()}
+              </span>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+      />
     </>
   );
 };

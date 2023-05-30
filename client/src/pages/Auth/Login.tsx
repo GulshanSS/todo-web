@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { object, TypeOf, string } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginUserMutation } from "../../redux/api/authApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const LoginSchema = object({
   email: string().min(1, "Email is requied").email("Email Address is invalid"),
@@ -16,6 +16,8 @@ const LoginSchema = object({
 export type LoginInput = TypeOf<typeof LoginSchema>;
 
 const Login = () => {
+  const [loginError, setLoginError] = useState<string>("");
+
   const methods = useForm<LoginInput>({
     resolver: zodResolver(LoginSchema),
   });
@@ -37,6 +39,7 @@ const Login = () => {
     }
 
     if (isError) {
+      setLoginError(error?.data.message);
       console.log(error);
     }
   }, [isLoading]);
@@ -63,15 +66,18 @@ const Login = () => {
           >
             <UsernameInputField name="email" />
             <PasswordInputField name="password" placeholder="Enter Password" />
+            {loginError !== "" && (
+              <span className="flex justify-center font-bold text-sm text-red-900">
+                {loginError}
+              </span>
+            )}
             <div className="flex flex-col items-center gap-1">
-              <Link to="/">
-                <button
-                  type="submit"
-                  className="w-72 mt-2 px-5 py-2 text-slate-500 font-bold bg-slate-300 rounded-md"
-                >
-                  Login
-                </button>
-              </Link>
+              <button
+                type="submit"
+                className="w-72 mt-2 px-5 py-2 text-slate-500 font-bold bg-slate-300 rounded-md"
+              >
+                Login
+              </button>
               <span className="font-bold text-sm text-slate-300 my-2">OR</span>
               <div className="flex justify-center items-center w-72 mt-2 px-5 py-2 text-white font-bold bg-red-500 rounded-md">
                 <span className="mr-2 text-xl">

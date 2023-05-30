@@ -9,13 +9,13 @@ const UsernameInputField = ({ name }: { name: string }) => {
 
   return (
     <>
-      <div className="w-96 flex rounded-md border border-solid border-slate-700 m-2 bg-slate-500">
-        <Controller
-          control={control}
-          defaultValue=""
-          name={name}
-          render={({ field }) => (
-            <>
+      <Controller
+        control={control}
+        defaultValue=""
+        name={name}
+        render={({ field }) => (
+          <>
+            <div className="w-96 flex rounded-md border border-solid border-slate-700 m-2 bg-slate-500">
               <div className="w-10 p-2 text-xl text-center text-white">
                 <FaUserAlt />
               </div>
@@ -25,15 +25,17 @@ const UsernameInputField = ({ name }: { name: string }) => {
                 type="text"
                 placeholder="Enter Username"
               />
-              {errors[name] ? (
-                <p className="text-sm text-red-500">errors[name].message</p>
-              ) : (
-                ""
-              )}
-            </>
-          )}
-        />
-      </div>
+            </div>
+            {errors[name] ? (
+              <span className="flex justify-end font-bold text-sm text-red-900 mr-2">
+                {errors[name]?.message?.toString()}
+              </span>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+      />
     </>
   );
 };
