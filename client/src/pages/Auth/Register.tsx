@@ -30,7 +30,6 @@ const Register = () => {
   const navigate = useNavigate();
 
   const {
-    register,
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
@@ -71,11 +70,11 @@ const Register = () => {
           >
             <UsernameInputField name="email" />
             <PasswordInputField
-              {...register("password")}
+              name="password"
               placeholder="Enter New Password"
             />
             <PasswordInputField
-              {...register("confirmPassword")}
+              name="confirmPassword"
               placeholder="Enter Confirm Password"
             />
             <div className="flex flex-col items-center gap-1">
