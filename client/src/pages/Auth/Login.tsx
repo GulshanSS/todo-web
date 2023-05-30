@@ -79,14 +79,13 @@ const Login = () => {
                 </span>
                 <button>Continue with Google</button>
               </div>
+              <span className="text-sm text-slate-300 mt-2">
+                Go to
+                <Link to="/register">
+                  <b className="ml-2 uppercase">Register Page</b>
+                </Link>
+              </span>
             </div>
-
-            <span className="text-sm text-slate-300 mt-2">
-              Go to
-              <Link to="/register">
-                <b className="ml-2 uppercase">Register Page</b>
-              </Link>
-            </span>
           </form>
         </FormProvider>
       </div>
