@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterUserMutation } from "../../redux/api/authApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const RegisterSchema = object({
   email: string().min(1, "Email is required").email("Email Address is invalid"),
@@ -20,11 +20,13 @@ const RegisterSchema = object({
 export type RegisterInput = TypeOf<typeof RegisterSchema>;
 
 const Register = () => {
+  const [registerError, setRegisterError] = useState<string>("");
+
   const methods = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
   });
 
-  const [registerUser, { isLoading, isSuccess, error, isError }] =
+  const [registerUser, { isLoading, isSuccess, error, isError, data }] =
     useRegisterUserMutation();
 
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const Register = () => {
     }
 
     if (isError) {
+      setRegisterError(error?.data.message);
       console.log(error);
     }
   }, [isLoading]);
@@ -77,6 +80,11 @@ const Register = () => {
               name="confirmPassword"
               placeholder="Enter Confirm Password"
             />
+            {registerError !== "" && (
+              <span className="flex justify-center font-bold text-sm text-red-900">
+                {registerError}
+              </span>
+            )}
             <div className="flex flex-col items-center gap-1">
               <button
                 type="submit"
