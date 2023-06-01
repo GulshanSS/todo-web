@@ -19,6 +19,10 @@ import { RefreshToken } from "../model/refreshToken.model";
 import hashGivenString from "../utils/hashGvenString";
 import { TokenPayload } from "../model/tokenPayload.model";
 import { getRandomKittenAvatars } from "../utils/randomKittenAvatar";
+import {
+  accessTokenCookieOptions,
+  refreshTokenCookieOptions,
+} from "../utils/tokenCookieOptions";
 
 export const registerHandler = async (req: Request, res: Response) => {
   try {
@@ -75,10 +79,15 @@ export const loginHandler = async (req: Request, res: Response) => {
     const jti: string = uuidv4();
     const { accessToken, refreshToken } = generateTokens(existingUser, jti);
     await whiteListRefreshToken({ refreshToken, jti, user: existingUser });
+    res.cookie("access_token", accessToken, accessTokenCookieOptions);
+    res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions);
+    res.cookie("logged_in", true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
     return res.status(200).json({
       success: true,
       accessToken,
-      refreshToken,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
@@ -128,20 +137,24 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
       jti
     );
     await whiteListRefreshToken({ refreshToken: newRefreshToken, jti, user });
+
+    res.cookie("access_token", accessToken, accessTokenCookieOptions);
+    res.cookie("refresh_token", refreshToken, refreshTokenCookieOptions);
+    res.cookie("logged_in", true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
+
     return res.status(201).json({
       success: true,
       accessToken,
-      refreshToken,
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
   }
 };
 
-export const deleteRefreshTokenByUserIdHandler = async (
-  req: Request,
-  res: Response
-) => {
+export const logoutHandler = async (req: Request, res: Response) => {
   try {
     const refreshToken: string = req.body.refreshToken;
     const payload: TokenPayload = verifyToken(
@@ -155,9 +168,12 @@ export const deleteRefreshTokenByUserIdHandler = async (
       });
     }
     await deleteRefreshTokenByUserId(payload.userId);
+    res.cookie("access_token", "", { maxAge: 1 });
+    res.cookie("refresh_token", "", { maxAge: 1 });
+    res.cookie("logged_in", "", { maxAge: 1 });
     return res.status(201).json({
       success: true,
-      message: "Deleted all the tokens assigned to user",
+      message: "Logged out successfully",
     });
   } catch (e: unknown) {
     if (e instanceof Error) logger.error(e.message);
