@@ -66,11 +66,11 @@ export const authApi = createApi({
       },
       { otp: string; userId: string }
     >({
-      query({ otp, userId }) {
+      query(data) {
         return {
           url: "verify-otp",
           method: "POST",
-          data: { otp, userId },
+          body: data,
           credentials: "include",
         };
       },
