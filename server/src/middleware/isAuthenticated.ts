@@ -9,16 +9,23 @@ export const isAutheticated = (
   next: NextFunction
 ) => {
   try {
-    const authorization: string | undefined = req.headers.authorization;
-    if (!authorization) {
+    let access_token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization?.startsWith("Bearer")
+    ) {
+      access_token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.access_token) {
+      access_token = req.cookies.access_token;
+    }
+    if (!access_token) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized",
       });
     }
-    const token = authorization.split(" ")[1];
     const payload: TokenPayload = verifyToken(
-      token,
+      access_token,
       process.env.JWT_ACCESS_TOKEN_SECRET as string
     );
     req.payload = payload as TokenPayload;
