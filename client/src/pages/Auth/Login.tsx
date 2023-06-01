@@ -39,6 +39,14 @@ const Login = () => {
     }
 
     if (isError) {
+      if (error?.data.userId) {
+        navigate("/verify-otp", {
+          state: {
+            userId: error?.data.userId,
+            message: error?.data.message,
+          },
+        });
+      }
       setLoginError(error?.data.message);
       console.log(error);
     }
