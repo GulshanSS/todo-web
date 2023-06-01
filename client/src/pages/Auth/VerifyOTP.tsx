@@ -3,7 +3,10 @@ import OTPInputField from "../../components/Auth/OTPInputField.tsx/OTPInputField
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useVerifyOTPMutation } from "../../redux/api/authApi";
+import {
+  useSendOTPMutation,
+  useVerifyOTPMutation,
+} from "../../redux/api/authApi";
 import { useEffect, useState } from "react";
 
 const OTPSchema = object({
@@ -26,12 +29,13 @@ export type OTPInput = TypeOf<typeof OTPSchema>;
 
 const VerifyOTP = () => {
   const [verifyOTPError, setVerifyOTPError] = useState<string>("");
-
   const location = useLocation();
 
   const methods = useForm<OTPInput>({
     resolver: zodResolver(OTPSchema),
   });
+
+  const [sendOTP] = useSendOTPMutation();
 
   const [verifyOTP, { isLoading, isSuccess, error, isError }] =
     useVerifyOTPMutation();
@@ -59,6 +63,12 @@ const VerifyOTP = () => {
       reset();
     }
   });
+
+  useEffect(() => {
+    sendOTP({
+      userId: location.state.userId,
+    });
+  }, []);
 
   const onSubmitHandler: SubmitHandler<OTPInput> = (values) => {
     verifyOTP({
