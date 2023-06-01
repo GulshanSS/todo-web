@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
-const OTPInputField = () => {
-  const [value, setValue] = useState("");
+const OTPInputField = ({ name }: { name: string }) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <>
-      <input
-        className="w-12 h-16 text-5xl font-semibold text-center focus:outline-none rounded-md m-1"
-        type="text"
-        maxLength={1}
-        minLength={1}
-        placeholder="0"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+      <Controller
+        control={control}
+        defaultValue=""
+        name={name}
+        render={({ field }) => (
+          <input
+            {...field}
+            className="w-12 h-16 text-5xl font-semibold text-center focus:outline-none rounded-md m-1"
+            type="text"
+            maxLength={1}
+            minLength={1}
+            placeholder="0"
+          />
+        )}
       />
     </>
   );
