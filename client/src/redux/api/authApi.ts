@@ -50,11 +50,11 @@ export const authApi = createApi({
       },
       { userId: string }
     >({
-      query({ userId }) {
+      query(data) {
         return {
           url: "send-otp",
           method: "POST",
-          body: userId,
+          body: data,
         };
       },
     }),
