@@ -13,7 +13,6 @@ export const accessTokenCookieOptions: CookieOptions = {
     1000,
   httpOnly: true,
   sameSite: "lax",
-  secure: true,
 };
 
 export const refreshTokenCookieOptions: CookieOptions = {
@@ -29,5 +28,4 @@ export const refreshTokenCookieOptions: CookieOptions = {
     1000,
   httpOnly: true,
   sameSite: "lax",
-  secure: true,
 };
