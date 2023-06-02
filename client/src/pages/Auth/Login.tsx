@@ -2,7 +2,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import PasswordInputField from "../../components/Auth/PasswordInputField/PasswordInputField";
 import UsernameInputField from "../../components/Auth/UsernameInputField/UsernameInputField";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { object, TypeOf, string } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginUserMutation } from "../../redux/api/authApi";
@@ -26,6 +26,9 @@ const Login = () => {
     useLoginUserMutation();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = ((location.state as any)?.from.pathname as string) || "/";
 
   const {
     reset,
@@ -35,7 +38,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/");
+      navigate(from);
     }
 
     if (isError) {
