@@ -7,11 +7,13 @@ import AuthRouter from "./routes/auth.routes";
 import { isAutheticated } from "./middleware/isAuthenticated";
 import OtpRouter from "./routes/otp.routes";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app: Express = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
