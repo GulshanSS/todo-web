@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { userApi } from "./userApi";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL as string;
 
@@ -26,8 +27,7 @@ export const authApi = createApi({
     loginUser: builder.mutation<
       {
         success: boolean;
-        accesstoken: string;
-        refreshtoken: string;
+        access_token: string;
       },
       {
         email: string;
@@ -41,6 +41,14 @@ export const authApi = createApi({
           body: data,
           credentials: "include",
         };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(userApi.endpoints.getUser.initiate(null));
+        } catch (e) {
+          console.log(e);
+        }
       },
     }),
     sendOTP: builder.mutation<
