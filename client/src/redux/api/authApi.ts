@@ -83,15 +83,11 @@ export const authApi = createApi({
         };
       },
     }),
-    logoutUser: builder.mutation<
-      { success: boolean; message: string },
-      { refreshToken: string }
-    >({
-      query({ refreshToken }) {
+    logoutUser: builder.mutation<{ success: boolean; message: string }, void>({
+      query() {
         return {
           url: "logout",
           method: "delete",
-          data: { refreshToken },
           credentials: "include",
         };
       },
