@@ -156,7 +156,12 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
 
 export const logoutHandler = async (req: Request, res: Response) => {
   try {
-    const refreshToken: string = req.body.refreshToken;
+    let refreshToken: string;
+    if (req.body.refreshToken !== undefined) {
+      refreshToken = req.body.refreshToken;
+    } else {
+      refreshToken = req.cookies["refresh_token"];
+    }
     const payload: TokenPayload = verifyToken(
       refreshToken,
       process.env.JWT_REFRESH_TOKEN_SECRET as string
