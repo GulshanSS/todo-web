@@ -1,9 +1,27 @@
 import { GoSignOut } from "react-icons/go";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store";
+import { useLogoutUserMutation } from "../../redux/api/authApi";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.userState.user);
+
+  const navigate = useNavigate();
+
+  const [logoutUser, { isLoading, isSuccess, isError, error }] =
+    useLogoutUserMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+    }
+
+    if (isError) {
+      console.log(error);
+    }
+  }, [isLoading]);
+
   return (
     <>
       <nav className="fixed top-0 w-screen flex justify-between items-center bg-slate-500 px-5 py-2">
@@ -19,11 +37,12 @@ const Navbar = () => {
             src={user?.avatar}
             alt="avatar"
           />
-          <Link to="/login">
-            <button className="flex justify-center items-center w-10 h-10 text-2xl text-center bg-slate-200 rounded-full">
-              <GoSignOut />
-            </button>
-          </Link>
+          <button
+            onClick={() => logoutUser()}
+            className="flex justify-center items-center w-10 h-10 text-2xl text-center bg-slate-200 rounded-full"
+          >
+            <GoSignOut />
+          </button>
         </div>
       </nav>
       <Outlet />
