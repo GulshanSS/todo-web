@@ -39,7 +39,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/verify-otp");
+      navigate("/verify-otp", { state: { userId: data?.userId } });
     }
 
     if (isError) {
